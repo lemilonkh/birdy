@@ -57,12 +57,20 @@ fn populate_consumables(mut commands: Commands, food_handle: Res<FoodTextureHand
     for _ in 0..NUM_FOOD {
         let x = rng.gen_range(-WORLD_W..WORLD_W);
         let y = rng.gen_range(-WORLD_H..WORLD_H);
-        commands.spawn(FoodBundle::new((x, y), food_handle.0.clone().unwrap()));
+        commands.spawn(FoodBundle::new(
+            (x, y),
+            rng.gen_range(FOOD_PLANT_START_INDEX..FOOD_PLANT_END_INDEX),
+            food_handle.0.clone().unwrap(),
+        ));
     }
     for _ in 0..NUM_POISON {
         let x = rng.gen_range(-WORLD_W..WORLD_W);
         let y = rng.gen_range(-WORLD_H..WORLD_H);
-        commands.spawn(PoisonBundle::new((x, y), food_handle.0.clone().unwrap()));
+        commands.spawn(PoisonBundle::new(
+            (x, y),
+            FOOD_POISON_SPRITE_INDEX,
+            food_handle.0.clone().unwrap(),
+        ));
     }
 }
 
