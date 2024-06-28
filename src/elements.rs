@@ -83,7 +83,7 @@ fn despawn_consumables(
 
 fn replicate_consumables(
     mut commands: Commands,
-    handle: Res<GlobalTextureHandle>,
+    food_handle: Res<FoodTextureHandle>,
     food_query: Query<With<Food>>,
     poison_query: Query<With<Poison>>,
     mut consumable_query: Query<
@@ -127,9 +127,9 @@ fn replicate_consumables(
         let (x, y) = limit_to_world((x, y));
 
         if consumable.is_food() && is_populate_food {
-            commands.spawn(FoodBundle::new((x, y), handle.0.clone().unwrap()));
+            commands.spawn(FoodBundle::new((x, y), food_handle.0.clone().unwrap()));
         } else if rng.gen_range(0.0..1.0) > 0.4 && is_populate_poison {
-            commands.spawn(PoisonBundle::new((x, y), handle.0.clone().unwrap()));
+            commands.spawn(PoisonBundle::new((x, y), food_handle.0.clone().unwrap()));
         }
         last_replication_ts.0 = Instant::now();
     }

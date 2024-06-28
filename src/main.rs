@@ -30,6 +30,7 @@ fn main() {
         .insert_resource(Msaa::Off)
         .insert_resource(ClearColor(get_color(COLOR_BACKGROUND)))
         .insert_resource(GlobalTextureHandle(None))
+        .insert_resource(FoodTextureHandle(None))
         .insert_resource(Settings::default())
         .add_plugins(BoidPlugin)
         .add_plugins(GuiPlugin)
@@ -49,11 +50,13 @@ fn main() {
 fn setup(
     mut commands: Commands,
     mut handle: ResMut<GlobalTextureHandle>,
+    mut food_handle: ResMut<FoodTextureHandle>,
     asset_server: Res<AssetServer>,
     mut texture_atlases: ResMut<Assets<TextureAtlas>>,
     mut next_state: ResMut<NextState<SimState>>,
 ) {
     let texture_handle = asset_server.load(SPRITE_SHEET_PATH);
+    let food_texture_handle = asset_server.load(FOOD_SPRITE_SHEET_PATH);
     let texture_atlas = TextureAtlas::from_grid(
         texture_handle,
         vec2(TILE_W, TILE_H),
@@ -62,7 +65,16 @@ fn setup(
         None,
         None,
     );
+    let food_texture_atlas = TextureAtlas::from_grid(
+        food_texture_handle,
+        vec2(FOOD_TILE_W, FOOD_NUTRITION),
+        FOOD_SPRITE_SHEET_ROWS,
+        FOOD_SPRITE_SHEET_COLS,
+        None,
+        None,
+    );
     handle.0 = Some(texture_atlases.add(texture_atlas));
+    food_handle.0 = Some(texture_atlases.add(food_texture_atlas));
 
     commands
         .spawn(Camera2dBundle::default())

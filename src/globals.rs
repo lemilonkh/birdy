@@ -2,6 +2,8 @@ use bevy::prelude::*;
 
 #[derive(Resource)]
 pub struct GlobalTextureHandle(pub Option<Handle<TextureAtlas>>);
+#[derive(Resource)]
+pub struct FoodTextureHandle(pub Option<Handle<TextureAtlas>>);
 
 #[derive(Debug, Clone, Copy, Default, Eq, PartialEq, Hash, States)]
 pub enum SimState {

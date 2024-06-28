@@ -51,18 +51,18 @@ fn populate_boids(
     }
 }
 
-fn populate_consumables(mut commands: Commands, handle: Res<GlobalTextureHandle>) {
+fn populate_consumables(mut commands: Commands, food_handle: Res<FoodTextureHandle>) {
     let mut rng = rand::thread_rng();
 
     for _ in 0..NUM_FOOD {
         let x = rng.gen_range(-WORLD_W..WORLD_W);
         let y = rng.gen_range(-WORLD_H..WORLD_H);
-        commands.spawn(FoodBundle::new((x, y), handle.0.clone().unwrap()));
+        commands.spawn(FoodBundle::new((x, y), food_handle.0.clone().unwrap()));
     }
     for _ in 0..NUM_POISON {
         let x = rng.gen_range(-WORLD_W..WORLD_W);
         let y = rng.gen_range(-WORLD_H..WORLD_H);
-        commands.spawn(PoisonBundle::new((x, y), handle.0.clone().unwrap()));
+        commands.spawn(PoisonBundle::new((x, y), food_handle.0.clone().unwrap()));
     }
 }
 

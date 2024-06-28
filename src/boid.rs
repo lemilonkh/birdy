@@ -252,7 +252,7 @@ fn update_boid_transform(
 
 fn handle_boid_despawn_events(
     mut commands: Commands,
-    handle: Res<GlobalTextureHandle>,
+    food_handle: ResMut<FoodTextureHandle>,
     mut events: EventReader<BoidDeathFoodSpawnEvent>,
 ) {
     let mut rng = rand::thread_rng();
@@ -266,9 +266,9 @@ fn handle_boid_despawn_events(
 
             let (x, y) = limit_to_world((x, y));
             if rng.gen_range(0.0..1.0) > 0.85 {
-                commands.spawn(PoisonBundle::new((x, y), handle.0.clone().unwrap()));
+                commands.spawn(PoisonBundle::new((x, y), food_handle.0.clone().unwrap()));
             } else {
-                commands.spawn(FoodBundle::new((x, y), handle.0.clone().unwrap()));
+                commands.spawn(FoodBundle::new((x, y), food_handle.0.clone().unwrap()));
             }
         }
     }
