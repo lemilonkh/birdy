@@ -580,7 +580,7 @@ impl BoidBundle {
                 ..default()
             },
             animation_indices,
-            animation_timer: AnimationTimer(Timer::from_seconds(0.1, TimerMode::Repeating)),
+            animation_timer: AnimationTimer(Timer::from_seconds(0.15, TimerMode::Repeating)),
             boid: Boid,
             velocity: Velocity(get_rand_unit_vec2()),
             acceleration: Acceleration(Vec2::ZERO),
