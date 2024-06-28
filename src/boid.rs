@@ -28,6 +28,14 @@ struct ReplicateTimer(Timer);
 #[derive(Component)]
 pub struct BirthTimeStamp(pub Instant);
 
+#[derive(Component)]
+struct AnimationIndices {
+    first: usize,
+    last: usize,
+}
+#[derive(Component, Deref, DerefMut)]
+struct AnimationTimer(Timer);
+
 #[derive(Event)]
 struct BoidDeathFoodSpawnEvent(Vec2);
 
@@ -52,6 +60,8 @@ pub struct PredatorDna {
 #[derive(Bundle)]
 pub struct BoidBundle {
     sprite_sheet_bundle: SpriteSheetBundle,
+    animation_indices: AnimationIndices,
+    animation_timer: AnimationTimer,
     boid: Boid,
     velocity: Velocity,
     acceleration: Acceleration,
@@ -74,6 +84,7 @@ impl Plugin for BoidPlugin {
             Update,
             (
                 update_boid_transform,
+                animate_sprite,
                 boundary_boids_direction_update,
                 (update_boid_color, update_predator_color),
                 (update_boid_direction, update_predator_direction),
@@ -254,7 +265,7 @@ fn handle_boid_despawn_events(
 
             let (x, y) = limit_to_world((x, y));
             if rng.gen_range(0.0..1.0) > 0.85 {
-                commands.spawn(PoisonBundle::new((x, y), handle.0.clone().unwrap()));
+                commands.spawn(PoisonBundle::new((x, y), handle));
             } else {
                 commands.spawn(FoodBundle::new((x, y), handle.0.clone().unwrap()));
             }
@@ -511,6 +522,22 @@ fn update_predator_color(
     }
 }
 
+fn animate_sprite(
+    time: Res<Time>,
+    mut query: Query<(&AnimationIndices, &mut AnimationTimer, &mut TextureAtlas)>,
+) {
+    for (indices, mut timer, mut atlas) in &mut query {
+        timer.tick(time.delta());
+        if timer.just_finished() {
+            atlas.index = if atlas.index == indices.last {
+                indices.first
+            } else {
+                atlas.index + 1
+            };
+        }
+    }
+}
+
 impl BoidBundle {
     pub fn new(handle: Handle<TextureAtlas>, is_predator: bool) -> Self {
         let mut rng = rand::thread_rng();
@@ -523,6 +550,8 @@ impl BoidBundle {
     fn child(pos: (f32, f32), dna: &Dna, handle: Handle<TextureAtlas>, is_predator: bool) -> Self {
         let (x, y) = pos;
         let sprite_index = if is_predator { 1 } else { 0 };
+        let animation_indices = AnimationIndices { first: 0, last: 2 };
+
         Self {
             sprite_sheet_bundle: SpriteSheetBundle {
                 texture_atlas: handle,
@@ -531,6 +560,8 @@ impl BoidBundle {
                     .with_translation(vec3(x, y, 2.0)),
                 ..default()
             },
+            animation_indices,
+            animation_timer: AnimationTimer(Timer::from_seconds(0.1, TimerMode::Repeating)),
             boid: Boid,
             velocity: Velocity(get_rand_unit_vec2()),
             acceleration: Acceleration(Vec2::ZERO),
