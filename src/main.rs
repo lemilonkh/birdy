@@ -1,6 +1,7 @@
 use bevy::math::vec2;
 use bevy::prelude::*;
 use bevy::window::close_on_esc;
+use bevy_ecs_ldtk::prelude::*;
 use bevy_pancam::{PanCam, PanCamPlugin};
 
 use ecosim::utils::get_color;
@@ -27,6 +28,8 @@ fn main() {
                 }),
         )
         .add_plugins(PanCamPlugin)
+        .add_plugins(LdtkPlugin)
+        .insert_resource(LevelSelection::index(0))
         .insert_resource(Msaa::Off)
         .insert_resource(ClearColor(get_color(COLOR_BACKGROUND)))
         .insert_resource(GlobalTextureHandle(None))
@@ -75,6 +78,11 @@ fn setup(
     );
     handle.0 = Some(texture_atlases.add(texture_atlas));
     food_handle.0 = Some(texture_atlases.add(food_texture_atlas));
+
+    commands.spawn(LdtkWorldBundle {
+        ldtk_handle: asset_server.load("tilemap.ldtk"),
+        ..Default::default()
+    });
 
     commands
         .spawn(Camera2dBundle::default())
