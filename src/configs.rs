@@ -3,19 +3,19 @@ pub const WW: usize = 1600;
 pub const WH: usize = 1000;
 
 // Sprite
-pub const SPRITE_SHEET_PATH: &str = "bird.png";
+pub const SPRITE_SHEET_PATH: &str = "birds_top_down.png";
 pub const FOOD_SPRITE_SHEET_PATH: &str = "food.png";
 pub const TILE_H: f32 = 32.0;
 pub const TILE_W: f32 = 32.0;
 pub const FOOD_TILE_H: f32 = 16.0;
 pub const FOOD_TILE_W: f32 = 16.0;
-pub const SPRITE_SHEET_ROWS: usize = 10;
-pub const SPRITE_SHEET_COLS: usize = 10;
+pub const SPRITE_SHEET_ROWS: usize = 13;
+pub const SPRITE_SHEET_COLS: usize = 3;
 pub const FOOD_SPRITE_SHEET_ROWS: usize = 8;
 pub const FOOD_SPRITE_SHEET_COLS: usize = 8;
 pub const BOID_SPRITE_SCALE: f32 = 1.5;
 pub const CONSUMABLE_SPRITE_SCALE: f32 = 2.0;
-pub const FOOD_DEAD_BOID_SPRITE_INDEX: usize = 25;
+pub const FOOD_DEAD_BOID_SPRITE_INDEX: usize = 50; // 25
 pub const FOOD_POISON_SPRITE_INDEX: usize = 3;
 pub const FOOD_PLANT_START_INDEX: usize = 27;
 pub const FOOD_PLANT_END_INDEX: usize = 36;

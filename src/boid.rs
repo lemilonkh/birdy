@@ -50,6 +50,7 @@ pub struct Dna {
     pub food_perception_radius: f32,
     pub poison_perception_radius: f32,
     pub predator_perception_radius: f32,
+    pub species: u8,
 }
 
 #[derive(Component, Clone, Copy)]
@@ -244,9 +245,8 @@ fn update_boid_transform(
             transform.translation = new_translation;
         }
 
-        transform.rotation = Quat::from_rotation_z(
-            calc_rotation_angle(old_pos, transform.translation) + 3.0 * PI / 2.0,
-        );
+        transform.rotation =
+            Quat::from_rotation_z(calc_rotation_angle(old_pos, transform.translation) + PI / 2.0);
     }
 }
 
@@ -572,17 +572,16 @@ impl BoidBundle {
 
     fn child(pos: (f32, f32), dna: &Dna, handle: Handle<TextureAtlas>, is_predator: bool) -> Self {
         let (x, y) = pos;
-        let sprite_index = if is_predator { 1 } else { 0 };
         let animation_indices = AnimationIndices {
-            first: 0,
-            last: 2,
+            first: dna.species as usize * 3,
+            last: dna.species as usize * 3 + 2,
             direction: 1,
         };
 
         Self {
             sprite_sheet_bundle: SpriteSheetBundle {
                 texture_atlas: handle,
-                sprite: TextureAtlasSprite::new(sprite_index),
+                sprite: TextureAtlasSprite::new(animation_indices.first),
                 transform: Transform::from_scale(Vec3::splat(BOID_SPRITE_SCALE))
                     .with_translation(vec3(x, y, 2.0)),
                 ..default()
@@ -592,7 +591,7 @@ impl BoidBundle {
             boid: Boid,
             velocity: Velocity(get_rand_unit_vec2()),
             acceleration: Acceleration(Vec2::ZERO),
-            dna: dna.clone(),
+            dna: *dna,
             health: Health(BOID_MAX_HEALTH),
             replicate_timer: ReplicateTimer(Timer::new(
                 Duration::from_secs_f32(BOID_REPLICATE_INTERVAL),
@@ -638,6 +637,7 @@ impl Dna {
             food_perception_radius: rng.gen_range(50.0..120.0),
             poison_perception_radius: rng.gen_range(50.0..120.0),
             predator_perception_radius: rng.gen_range(50.0..120.0),
+            species: rng.gen_range(0..12),
         }
     }
 
