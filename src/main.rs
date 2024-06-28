@@ -63,16 +63,16 @@ fn setup(
     let texture_atlas = TextureAtlas::from_grid(
         texture_handle,
         vec2(TILE_W, TILE_H),
-        SPRITE_SHEET_ROWS,
         SPRITE_SHEET_COLS,
+        SPRITE_SHEET_ROWS,
         None,
         None,
     );
     let food_texture_atlas = TextureAtlas::from_grid(
         food_texture_handle,
         vec2(FOOD_TILE_W, FOOD_TILE_H),
-        FOOD_SPRITE_SHEET_ROWS,
         FOOD_SPRITE_SHEET_COLS,
+        FOOD_SPRITE_SHEET_ROWS,
         None,
         None,
     );
