@@ -623,7 +623,7 @@ impl Dna {
         let mut rng = rand::thread_rng();
         Self {
             steering_force: rng.gen_range(0.0005..0.005),
-            speed: rng.gen_range(0.5..1.5),
+            speed: rng.gen_range(0.5..2.5),
             food_pull: rng.gen_range(-1.5..1.5),
             poison_pull: rng.gen_range(-1.5..1.5),
             predator_pull: rng.gen_range(-1.5..1.5),
