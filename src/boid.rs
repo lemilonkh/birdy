@@ -232,8 +232,9 @@ fn update_boid_transform(
             transform.translation = new_translation;
         }
 
-        transform.rotation =
-            Quat::from_rotation_z(calc_rotation_angle(old_pos, transform.translation) + PI / 2.0);
+        transform.rotation = Quat::from_rotation_z(
+            calc_rotation_angle(old_pos, transform.translation) + 3.0 * PI / 2.0,
+        );
     }
 }
 
@@ -521,7 +522,7 @@ impl BoidBundle {
 
     fn child(pos: (f32, f32), dna: &Dna, handle: Handle<TextureAtlas>, is_predator: bool) -> Self {
         let (x, y) = pos;
-        let sprite_index = if is_predator { 2 } else { 0 };
+        let sprite_index = if is_predator { 1 } else { 0 };
         Self {
             sprite_sheet_bundle: SpriteSheetBundle {
                 texture_atlas: handle,

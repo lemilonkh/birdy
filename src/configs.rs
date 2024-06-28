@@ -3,9 +3,9 @@ pub const WW: usize = 1600;
 pub const WH: usize = 1000;
 
 // Sprite
-pub const SPRITE_SHEET_PATH: &str = "assets.png";
-pub const TILE_H: f32 = 16.0;
-pub const TILE_W: f32 = 16.0;
+pub const SPRITE_SHEET_PATH: &str = "bird.png";
+pub const TILE_H: f32 = 32.0;
+pub const TILE_W: f32 = 32.0;
 pub const SPRITE_SHEET_ROWS: usize = 10;
 pub const SPRITE_SHEET_COLS: usize = 10;
 pub const BOID_SPRITE_SCALE: f32 = 1.5;
