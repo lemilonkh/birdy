@@ -67,7 +67,7 @@ fn setup(
     );
     let food_texture_atlas = TextureAtlas::from_grid(
         food_texture_handle,
-        vec2(FOOD_TILE_W, FOOD_NUTRITION),
+        vec2(FOOD_TILE_W, FOOD_TILE_H),
         FOOD_SPRITE_SHEET_ROWS,
         FOOD_SPRITE_SHEET_COLS,
         None,
