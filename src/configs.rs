@@ -47,7 +47,7 @@ pub const COLOR_BOID: (u8, u8, u8) = (255, 255, 255);
 pub const COLOR_PREDATOR: (u8, u8, u8) = (255, 236, 179);
 pub const COLOR_PREDATOR_LOW_HEALTH: (u8, u8, u8) = (255, 145, 102);
 pub const COLOR_BOID_LOW_HEALTH: (u8, u8, u8) = (102, 255, 227);
-pub const COLOR_BACKGROUND: (u8, u8, u8) = (40, 180, 10);
+pub const COLOR_BACKGROUND: (u8, u8, u8) = (50, 33, 37);
 
 // Consumables
 pub const FOOD_NUTRITION: f32 = 5.0;
