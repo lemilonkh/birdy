@@ -171,7 +171,7 @@ fn predators_replicate(
         commands.spawn(PredatorBundle::child(
             (x, y),
             &child_dna,
-            &predator_dna,
+            predator_dna,
             handle.0.clone().unwrap(),
         ));
     }
@@ -266,9 +266,17 @@ fn handle_boid_despawn_events(
 
             let (x, y) = limit_to_world((x, y));
             if rng.gen_range(0.0..1.0) > 0.85 {
-                commands.spawn(PoisonBundle::new((x, y), food_handle.0.clone().unwrap()));
+                commands.spawn(PoisonBundle::new(
+                    (x, y),
+                    FOOD_POISON_SPRITE_INDEX,
+                    food_handle.0.clone().unwrap(),
+                ));
             } else {
-                commands.spawn(FoodBundle::new((x, y), food_handle.0.clone().unwrap()));
+                commands.spawn(FoodBundle::new(
+                    (x, y),
+                    FOOD_DEAD_BOID_SPRITE_INDEX,
+                    food_handle.0.clone().unwrap(),
+                ));
             }
         }
     }

@@ -127,9 +127,19 @@ fn replicate_consumables(
         let (x, y) = limit_to_world((x, y));
 
         if consumable.is_food() && is_populate_food {
-            commands.spawn(FoodBundle::new((x, y), food_handle.0.clone().unwrap()));
+            // TODO smaller range
+            commands.spawn(FoodBundle::new(
+                (x, y),
+                rng.gen_range(FOOD_PLANT_START_INDEX..FOOD_PLANT_END_INDEX),
+                food_handle.0.clone().unwrap(),
+            ));
         } else if rng.gen_range(0.0..1.0) > 0.4 && is_populate_poison {
-            commands.spawn(PoisonBundle::new((x, y), food_handle.0.clone().unwrap()));
+            // TODO smaller range
+            commands.spawn(PoisonBundle::new(
+                (x, y),
+                FOOD_POISON_SPRITE_INDEX,
+                food_handle.0.clone().unwrap(),
+            ));
         }
         last_replication_ts.0 = Instant::now();
     }
@@ -170,12 +180,13 @@ impl ConsumableBundle {
         handle: Handle<TextureAtlas>,
         color: Color,
         nutrition: f32,
+        sprite_index: usize,
     ) -> Self {
         Self {
             sprite_sheet_bundle: SpriteSheetBundle {
                 texture_atlas: handle,
                 sprite: TextureAtlasSprite {
-                    index: 1,
+                    index: sprite_index,
                     color,
                     ..default()
                 },
@@ -190,13 +201,14 @@ impl ConsumableBundle {
 }
 
 impl FoodBundle {
-    pub fn new((x, y): (f32, f32), handle: Handle<TextureAtlas>) -> Self {
+    pub fn new((x, y): (f32, f32), sprite_index: usize, handle: Handle<TextureAtlas>) -> Self {
         Self {
             consumable_bundle: ConsumableBundle::new(
                 (x, y),
                 handle,
                 get_color(COLOR_FOOD),
                 FOOD_NUTRITION,
+                sprite_index,
             ),
             food: Food,
         }
@@ -204,13 +216,14 @@ impl FoodBundle {
 }
 
 impl PoisonBundle {
-    pub fn new((x, y): (f32, f32), handle: Handle<TextureAtlas>) -> Self {
+    pub fn new((x, y): (f32, f32), sprite_index: usize, handle: Handle<TextureAtlas>) -> Self {
         Self {
             consumable_bundle: ConsumableBundle::new(
                 (x, y),
                 handle,
                 get_color(COLOR_POISON),
                 POISON_DAMAGE,
+                sprite_index,
             ),
             poison: Poison,
         }

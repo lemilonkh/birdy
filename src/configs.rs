@@ -16,7 +16,7 @@ pub const FOOD_SPRITE_SHEET_COLS: usize = 8;
 pub const BOID_SPRITE_SCALE: f32 = 1.5;
 pub const CONSUMABLE_SPRITE_SCALE: f32 = 2.0;
 pub const FOOD_DEAD_BOID_SPRITE_INDEX: usize = 25;
-pub const FOOD_POISON_SPRITE_INDEX: usize = 2;
+pub const FOOD_POISON_SPRITE_INDEX: usize = 3;
 pub const FOOD_PLANT_START_INDEX: usize = 27;
 pub const FOOD_PLANT_END_INDEX: usize = 36;
 
@@ -42,12 +42,12 @@ pub const PREDATOR_COLLISION_RADIUS: f32 = 10.0;
 
 // Colors
 pub const COLOR_FOOD: (u8, u8, u8) = (255, 255, 255); // (142, 231, 112);
-pub const COLOR_POISON: (u8, u8, u8) = (235, 86, 75);
+pub const COLOR_POISON: (u8, u8, u8) = (255, 255, 255); // (235, 86, 75);
 pub const COLOR_BOID: (u8, u8, u8) = (255, 255, 255);
 pub const COLOR_PREDATOR: (u8, u8, u8) = (255, 236, 179);
 pub const COLOR_PREDATOR_LOW_HEALTH: (u8, u8, u8) = (255, 145, 102);
 pub const COLOR_BOID_LOW_HEALTH: (u8, u8, u8) = (102, 255, 227);
-pub const COLOR_BACKGROUND: (u8, u8, u8) = (50, 62, 79);
+pub const COLOR_BACKGROUND: (u8, u8, u8) = (40, 180, 10);
 
 // Consumables
 pub const FOOD_NUTRITION: f32 = 5.0;
