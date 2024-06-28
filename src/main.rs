@@ -82,8 +82,8 @@ fn setup(
     commands.spawn(LdtkWorldBundle {
         ldtk_handle: asset_server.load("tilemap.ldtk"),
         transform: Transform::from_scale(Vec3::splat(2.0)).with_translation(vec3(
-            -(WW as f32) / 2.,
-            -(WH as f32) / 2.,
+            -(WW as f32),
+            -(WH as f32),
             -10.,
         )),
         ..Default::default()
