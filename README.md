@@ -5,23 +5,37 @@ Built in [Rust](https://www.rust-lang.org/) using the [Bevy](https://bevyengine.
 
 ![screenshot](/screenshot.png)
 
-## Timelapse video
-
-### Part 1
-[![youtube](https://img.youtube.com/vi/lCUovKa68jQ/0.jpg)](https://youtu.be/lCUovKa68jQ)
-
-### Part 2 with predators
-[![youtube](https://img.youtube.com/vi/sKYUIlDdC18/0.jpg)](https://youtu.be/sKYUIlDdC18)
-
 ## Usage
 - Clone the repo
 ```bash
-git clone git@github.com:bones-ai/rust-ecosystem-simulation.git
-cd rust-ecosystem-simulation
+git clone git@github.com:lemilonkh/birdy.git
+cd birdy
 ```
 - Run the simulation
 ```bash
-cargo run
+cargo run --release
+```
+
+- Run in the browser using wasm:
+Setup:  
+```bash
+rustup target install wasm32-unknown-unknown
+cargo install wasm-server-runner
+```
+Run:  
+```bash
+cargo run --target wasm32-unknown-unknown --release
+```
+Visit [http://localhost:1334](http://localhost:1334)
+
+- Export to web:
+```bash
+cargo install wasm-bindgen-cli
+cargo build --release --target wasm32-unknown-unknown
+wasm-bindgen --no-typescript --target web \
+    --out-dir ./out/ \
+    --out-name "birdy" \
+    ./target/wasm32-unknown-unknown/release/birdy.wasm
 ```
 
 ## Controls
