@@ -8,9 +8,11 @@ edition = "2021"
 [dependencies]
 bevy = "0.12.1"
 bevy_egui = "0.24.0"
-bevy_pancam = { version = "0.10.0", features = ["bevy_egui"]}
+bevy_pancam = { version = "0.10.0", features = ["bevy_egui"] }
 egui_plot = "0.24.1"
 rand = "0.8.5"
+bevy_ecs_ldtk = "0.9"
+bevy_ecs_tilemap = "0.12"
 
 [workspace]
 resolver = "2" # Important! wgpu/Bevy needs this!
