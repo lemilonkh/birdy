@@ -1,4 +1,4 @@
-use bevy::math::vec2;
+use bevy::math::{vec2, vec3};
 use bevy::prelude::*;
 use bevy::window::close_on_esc;
 use bevy_ecs_ldtk::prelude::*;
@@ -21,7 +21,7 @@ fn main() {
                     primary_window: Some(Window {
                         // mode: bevy::window::WindowMode::Fullscreen,
                         resolution: (WW as f32, WH as f32).into(),
-                        title: "eco-sim".to_string(),
+                        title: "Birdy - Ecosystem Simulator".to_string(),
                         ..default()
                     }),
                     ..default()
@@ -81,6 +81,11 @@ fn setup(
 
     commands.spawn(LdtkWorldBundle {
         ldtk_handle: asset_server.load("tilemap.ldtk"),
+        transform: Transform::from_scale(Vec3::splat(2.0)).with_translation(vec3(
+            -(WW as f32) / 2.,
+            -(WH as f32) / 2.,
+            -10.,
+        )),
         ..Default::default()
     });
 
