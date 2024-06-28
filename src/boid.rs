@@ -32,6 +32,7 @@ pub struct BirthTimeStamp(pub Instant);
 struct AnimationIndices {
     first: usize,
     last: usize,
+    direction: i8,
 }
 #[derive(Component, Deref, DerefMut)]
 struct AnimationTimer(Timer);
@@ -265,7 +266,7 @@ fn handle_boid_despawn_events(
 
             let (x, y) = limit_to_world((x, y));
             if rng.gen_range(0.0..1.0) > 0.85 {
-                commands.spawn(PoisonBundle::new((x, y), handle));
+                commands.spawn(PoisonBundle::new((x, y), handle.0.clone().unwrap()));
             } else {
                 commands.spawn(FoodBundle::new((x, y), handle.0.clone().unwrap()));
             }
@@ -524,16 +525,30 @@ fn update_predator_color(
 
 fn animate_sprite(
     time: Res<Time>,
-    mut query: Query<(&AnimationIndices, &mut AnimationTimer, &mut TextureAtlas)>,
+    mut query: Query<(
+        &mut AnimationIndices,
+        &mut AnimationTimer,
+        &mut TextureAtlasSprite,
+    )>,
 ) {
-    for (indices, mut timer, mut atlas) in &mut query {
+    for (mut indices, mut timer, mut sprite) in &mut query {
         timer.tick(time.delta());
         if timer.just_finished() {
-            atlas.index = if atlas.index == indices.last {
-                indices.first
+            if indices.direction == 1 {
+                sprite.index = if sprite.index == indices.last {
+                    indices.direction = -1;
+                    sprite.index - 1
+                } else {
+                    sprite.index + 1
+                };
             } else {
-                atlas.index + 1
-            };
+                sprite.index = if sprite.index == indices.first {
+                    indices.direction = 1;
+                    sprite.index + 1
+                } else {
+                    sprite.index - 1
+                }
+            }
         }
     }
 }
@@ -550,7 +565,11 @@ impl BoidBundle {
     fn child(pos: (f32, f32), dna: &Dna, handle: Handle<TextureAtlas>, is_predator: bool) -> Self {
         let (x, y) = pos;
         let sprite_index = if is_predator { 1 } else { 0 };
-        let animation_indices = AnimationIndices { first: 0, last: 2 };
+        let animation_indices = AnimationIndices {
+            first: 0,
+            last: 2,
+            direction: 1,
+        };
 
         Self {
             sprite_sheet_bundle: SpriteSheetBundle {
